@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1012343008916",
+    "project_id": "perspectives-a77f1",
+    "storage_bucket": "perspectives-a77f1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1012343008916:android:9777401911fd3ac2498e81",
+        "android_client_info": {
+          "package_name": "com.app.perspectives"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAa1BaGnpowA34riTbdwymKNKtePNYt0qg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
