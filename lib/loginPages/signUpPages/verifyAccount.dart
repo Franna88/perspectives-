@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:perspectives/homePage.dart';
 import 'package:perspectives/loginPages/loginMain.dart';
 
 import '../../CommonUi/buttons/ButtonStyleLong.dart';
@@ -74,11 +75,17 @@ class _VerifyAccountState extends State<VerifyAccount> {
                   buttonText: 'Create account',
                   onTap: () {
                     // _formKey.currentState!.validate();
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const LoginMain()),
+                        builder: (context) => const HomePage(pageIndex: 0),
+                      ),
                     );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //       builder: (context) => const LoginMain()),
+                    // );
                   },
                 ),
                 const SizedBox(

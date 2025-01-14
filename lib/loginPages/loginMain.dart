@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:perspectives/CommonUi/buttons/ButtonStyleLong.dart';
 import 'package:perspectives/CommonUi/textfields/MyTextFieldStyle.dart';
 import 'package:perspectives/CommonUi/buttons/myTextButtons.dart';
+import 'package:perspectives/homePage.dart';
 import 'package:perspectives/loginPages/forgotPassword/forgotPassword.dart';
 import 'package:perspectives/loginPages/signUpPages/signUp.dart';
 import 'package:perspectives/myUtility.dart';
@@ -36,14 +37,14 @@ class _LoginMainState extends State<LoginMain> {
                   height: 60,
                 ),
                 IconButton(
-                      icon: Icon(
-                        Icons.keyboard_arrow_left,
-                        size: 30,
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
+                  icon: Icon(
+                    Icons.keyboard_arrow_left,
+                    size: 30,
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
                 const SizedBox(
                   height: 30,
                 ),
@@ -103,9 +104,10 @@ class _LoginMainState extends State<LoginMain> {
                     MyTextButtons(
                       onTap: () {
                         Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const SignUp()),
-        );
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SignUp()),
+                        );
                       },
                       buttonText: 'Sign Up',
                       isUnderlined: true,
@@ -119,7 +121,14 @@ class _LoginMainState extends State<LoginMain> {
                 ButtonStyleLong(
                   buttonText: 'Login',
                   onTap: () {
-                    _formKey.currentState!.validate();
+                    if (_formKey.currentState!.validate()) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const HomePage(pageIndex: 0),
+                        ),
+                      );
+                    }
                   },
                 ),
                 const SizedBox(

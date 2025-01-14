@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:perspectives/UserAuthentification/firebase_auth_services.dart';
 import 'package:perspectives/loginPages/loginMain.dart';
 import 'package:perspectives/loginPages/signUpPages/verifyAccount.dart';
 
@@ -17,9 +19,19 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _email = TextEditingController();
-  final TextEditingController _password = TextEditingController();
-  final TextEditingController _userName = TextEditingController();
+  final FirebaseAuthServices _auth = FirebaseAuthServices();
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _userNameController = TextEditingController();
+
+  @override
+  void dispose() {
+    _userNameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,21 +74,21 @@ class _SignUpState extends State<SignUp> {
                   height: 50,
                 ),
                 MyTextFieldStyle(
-                    textfieldController: _userName,
+                    textfieldController: _userNameController,
                     labelText: 'Name',
                     textFieldType: ''),
                 const SizedBox(
                   height: 30,
                 ),
                 MyTextFieldStyle(
-                    textfieldController: _email,
+                    textfieldController: _emailController,
                     labelText: 'Email',
                     textFieldType: 'emailType'),
                 const SizedBox(
                   height: 50,
                 ),
                 MyTextFieldStyle(
-                    textfieldController: _password,
+                    textfieldController: _passwordController,
                     labelText: 'Password',
                     textFieldType: ''),
                 const SizedBox(
@@ -108,14 +120,15 @@ class _SignUpState extends State<SignUp> {
                 ),
                 ButtonStyleLong(
                   buttonText: 'Verify account',
-                  onTap: () {
-                    // _formKey.currentState!.validate();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const VerifyAccount()),
-                    );
-                  },
+                  onTap: _signUp,
+                  // onTap: () {
+                  //   // _formKey.currentState!.validate();
+                  //   Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => const VerifyAccount()),
+                  //   );
+                  // },
                 ),
                 const SizedBox(
                   height: 20,
@@ -126,5 +139,24 @@ class _SignUpState extends State<SignUp> {
         ),
       ),
     );
+  }
+
+  void _signUp() async {
+    String userName = _userNameController.text;
+    String email = _emailController.text;
+    String password = _passwordController.text;
+
+    User? user = await _auth.signUpWithEmailAndPassword(email, password);
+
+    if (user != null) {
+      print("User is successfully created");
+      // Navigator.pushNamed(context, "/home");
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const VerifyAccount()),
+      );
+    } else {
+      print("Some error happened");
+    }
   }
 }

@@ -14,6 +14,7 @@ import 'package:perspectives/home/perspectivesHome.dart';
 import 'package:perspectives/homePage.dart';
 
 import 'package:perspectives/loginPages/login.dart';
+import 'package:perspectives/loginPages/loginMain.dart';
 import 'package:perspectives/myUtility.dart';
 import 'package:perspectives/perspectivesCreate/memoryCreate/chooseMemoryFormat.dart';
 import 'package:perspectives/perspectivesCreate/memoryCreate/imageMemoryUpload.dart';
@@ -42,25 +43,30 @@ void main() async {
     await Firebase.initializeApp();
   }
 
-  runApp(
-    const MaterialApp(
-        home: Scaffold(
-      body:
-          //CreateEventDate()
-          //CreateEvent()
-          // ImageMemoryUpload()
-          //AddFriends()
-          //PerspectiveBackgroundImage()
-          //UploadVideoMemory(isSingleMemory: false)
-          //VoiceRecord()
-          // ChooseMemoryFormat()
-          //MemoryDetails()
-          //
-          //ContentViewScreen())
-          //PerspectiveOptionsPopup()
-          HomePage(
-        pageIndex: 0,
-      ),
-    )),
-  );
+  runApp(const MaterialApp(
+    //   home: Scaffold(
+    // body:
+    //CreateEventDate()
+    //CreateEvent()
+    // ImageMemoryUpload()
+    //AddFriends()
+    //PerspectiveBackgroundImage()
+    //UploadVideoMemory(isSingleMemory: false)
+    //VoiceRecord()
+    // ChooseMemoryFormat()
+    //MemoryDetails()
+    //
+    //ContentViewScreen())
+    //PerspectiveOptionsPopup()
+    //     HomePage(
+    //   pageIndex: 0,
+    // ),
+    // Login(),
+    // ),
+    //   home: Login(
+    // child: LoginMain(),
+    home: Scaffold(
+      body: Login(),
+    ),
+  ));
 }
