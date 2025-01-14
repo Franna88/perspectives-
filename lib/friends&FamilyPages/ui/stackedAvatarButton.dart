@@ -15,10 +15,12 @@ class StackedAvatarButton extends StatefulWidget {
   const StackedAvatarButton(
       {super.key,
       required this.userImage,
-       this.addFriend,
+      this.addFriend,
       required this.icon,
       this.isFriend,
-      this.isOwner, this.editProfile, this.ChangeImage});
+      this.isOwner,
+      this.editProfile,
+      this.ChangeImage});
 
   @override
   State<StackedAvatarButton> createState() => _StackedAvatarButtonState();
@@ -58,7 +60,7 @@ class _StackedAvatarButtonState extends State<StackedAvatarButton> {
               ),
             ),
           ),
-           Visibility(
+          Visibility(
             visible: widget.isOwner == true,
             child: Positioned(
               bottom: 0,

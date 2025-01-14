@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:perspectives/CommonUi/buttons/ButtonStyleLong.dart';
 import 'package:perspectives/CommonUi/textfields/MyTextFieldStyle.dart';
 import 'package:perspectives/CommonUi/buttons/myTextButtons.dart';
+import 'package:perspectives/UserAuthentification/firebase_auth_services.dart';
 import 'package:perspectives/homePage.dart';
 import 'package:perspectives/loginPages/forgotPassword/forgotPassword.dart';
 import 'package:perspectives/loginPages/signUpPages/signUp.dart';
@@ -18,8 +20,19 @@ class LoginMain extends StatefulWidget {
 class _LoginMainState extends State<LoginMain> {
   final _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _email = TextEditingController();
-  final TextEditingController _password = TextEditingController();
+  final FirebaseAuthServices _auth = FirebaseAuthServices();
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _userNameController = TextEditingController();
+
+  @override
+  void dispose() {
+    _userNameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,16 +79,16 @@ class _LoginMainState extends State<LoginMain> {
                   height: 50,
                 ),
                 MyTextFieldStyle(
-                    textfieldController: _email,
+                    textfieldController: _emailController,
                     labelText: 'Email',
                     textFieldType: 'emailType'),
                 const SizedBox(
                   height: 30,
                 ),
                 MyTextFieldStyle(
-                    textfieldController: _password,
+                    textfieldController: _passwordController,
                     labelText: 'Password',
-                    textFieldType: ''),
+                    textFieldType: 'passwordType'),
                 const SizedBox(
                   height: 30,
                 ),
@@ -120,16 +133,17 @@ class _LoginMainState extends State<LoginMain> {
                 ),
                 ButtonStyleLong(
                   buttonText: 'Login',
-                  onTap: () {
-                    if (_formKey.currentState!.validate()) {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const HomePage(pageIndex: 0),
-                        ),
-                      );
-                    }
-                  },
+                  onTap: _signIn,
+                  // onTap: () {
+                  //   if (_formKey.currentState!.validate()) {
+                  //     Navigator.pushReplacement(
+                  //       context,
+                  //       MaterialPageRoute(
+                  //         builder: (context) => const HomePage(pageIndex: 0),
+                  //       ),
+                  //     );
+                  //   }
+                  // },
                 ),
                 const SizedBox(
                   height: 20,
@@ -140,5 +154,27 @@ class _LoginMainState extends State<LoginMain> {
         ),
       ),
     );
+  }
+
+  void _signIn() async {
+    String userName = _userNameController.text;
+    String email = _emailController.text;
+    String password = _passwordController.text;
+
+    User? user = await _auth.signInWithEmailAndPassword(email, password);
+
+    if (user != null) {
+      print("User is successfully signed in");
+      // Navigator.pushNamed(context, "/home");
+      Navigator.push(
+        context,
+        // MaterialPageRoute(builder: (context) => const VerifyAccount()),
+        MaterialPageRoute(
+          builder: (context) => const HomePage(pageIndex: 0),
+        ),
+      );
+    } else {
+      print("Some error happened");
+    }
   }
 }

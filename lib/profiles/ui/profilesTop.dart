@@ -1,12 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:perspectives/CommonUi/mainHeaderText.dart';
 import 'package:perspectives/CommonUi/userAvatars.dart';
 import 'package:perspectives/friends&FamilyPages/otherUserFriends&Family/othersFriendsPage.dart';
 import 'package:perspectives/friends&FamilyPages/ui/stackedAvatarButton.dart';
+import 'package:perspectives/loginPages/login.dart';
 import 'package:perspectives/myUtility.dart';
 import 'package:perspectives/profiles/editProfile/editProfile.dart';
 import 'package:perspectives/profiles/generational/generationalTabPage.dart';
+import 'package:perspectives/profiles/ui/profile_popup.dart';
 import 'package:perspectives/profiles/ui/profilesFamilyFriendsColumn.dart';
 
 class ProfilesTop extends StatefulWidget {
@@ -27,6 +30,31 @@ class ProfilesTop extends StatefulWidget {
 }
 
 class _ProfilesTopState extends State<ProfilesTop> {
+  void _showProfilePopup() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return ProfilePopup(
+          onLogOut: () {
+            // Handle log out logic here
+            FirebaseAuth.instance.signOut(); // Close the popup
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const Login()),
+            );
+          },
+          onEditProfile: () {
+            // Handle edit profile logic here
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const EditProfile()),
+            ); // Close the popup
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -43,15 +71,15 @@ class _ProfilesTopState extends State<ProfilesTop> {
               children: [
                 StackedAvatarButton(
                     isOwner: true,
-                    editProfile: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const EditProfile()),
-                        );
-                    },
+                    editProfile: _showProfilePopup,
+                    // editProfile: () {
+                    //   Navigator.push(
+                    //       context,
+                    //       MaterialPageRoute(
+                    //           builder: (context) => const EditProfile()),
+                    //     );
+                    // },
                     userImage: widget.userImage,
-                   
                     icon: Icons.group_add),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -74,7 +102,8 @@ class _ProfilesTopState extends State<ProfilesTop> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const GenerationalTabPage()),
+                              builder: (context) =>
+                                  const GenerationalTabPage()),
                         );
                       },
                       friendsOnTap: () {

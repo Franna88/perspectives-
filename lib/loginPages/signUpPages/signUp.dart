@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:perspectives/UserAuthentification/firebase_auth_services.dart';
+import 'package:perspectives/homePage.dart';
 import 'package:perspectives/loginPages/loginMain.dart';
 import 'package:perspectives/loginPages/signUpPages/verifyAccount.dart';
 
@@ -90,7 +91,7 @@ class _SignUpState extends State<SignUp> {
                 MyTextFieldStyle(
                     textfieldController: _passwordController,
                     labelText: 'Password',
-                    textFieldType: ''),
+                    textFieldType: 'passwordType'),
                 const SizedBox(
                   height: 30,
                 ),
@@ -119,7 +120,8 @@ class _SignUpState extends State<SignUp> {
                   height: 20,
                 ),
                 ButtonStyleLong(
-                  buttonText: 'Verify account',
+                  // buttonText: 'Verify account',
+                  buttonText: 'Create Account',
                   onTap: _signUp,
                   // onTap: () {
                   //   // _formKey.currentState!.validate();
@@ -153,7 +155,10 @@ class _SignUpState extends State<SignUp> {
       // Navigator.pushNamed(context, "/home");
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const VerifyAccount()),
+        // MaterialPageRoute(builder: (context) => const VerifyAccount()),
+        MaterialPageRoute(
+          builder: (context) => const HomePage(pageIndex: 0),
+        ),
       );
     } else {
       print("Some error happened");
